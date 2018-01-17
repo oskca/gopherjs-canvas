@@ -127,8 +127,8 @@ func (c *Canvas) GetContext2D() *Context2D {
 	return &Context2D{Object: ctx}
 }
 
-// ToDataUrl canvas.toDataURL("image/jpeg") or canvas.toDataURL()
-func (c *Canvas) ToDataUrl(mimeType ...string) string {
+// toDataURL canvas.toDataURL("image/jpeg") or canvas.toDataURL()
+func (c *Canvas) toDataURL(mimeType ...string) string {
 	var o *js.Object
 	if len(mimeType) == 0 {
 		o = c.Call("toDataURL")
@@ -499,9 +499,9 @@ func (i *ImageData) Bytes() []byte {
 }
 
 // At ImageData At
-func (i *ImageData) At(x, y int) *color.RGBA {
+func (i *ImageData) At(x, y int) *color.NRGBA {
 	idx := 4 * (y*i.Width + x)
-	rgba := &color.RGBA{}
+	rgba := &color.NRGBA{}
 	rgba.R = uint8(i.Data.Index(idx).Int())
 	rgba.G = uint8(i.Data.Index(idx + 1).Int())
 	rgba.B = uint8(i.Data.Index(idx + 2).Int())
@@ -511,7 +511,7 @@ func (i *ImageData) At(x, y int) *color.RGBA {
 }
 
 // Set ImageData Set
-func (i *ImageData) Set(x, y int, c color.RGBA) {
+func (i *ImageData) Set(x, y int, c color.NRGBA) {
 	idx := 4 * (y*i.Width + x)
 	i.Data.SetIndex(idx, c.R)
 	i.Data.SetIndex(idx+1, c.G)
